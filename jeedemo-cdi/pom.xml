@@ -1,9 +1,24 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>edu.hm.cs.fwp.jeedemo</groupId>
-    <artifactId>jeedemo</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-  </parent>
-  <artifactId>jeedemo-cdi</artifactId>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>edu.hm.cs.fwp.jeedemo</groupId>
+		<artifactId>jeedemo</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>jeedemo-cdi</artifactId>
+	<dependencies>
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.jboss.arquillian.junit</groupId>
+		<artifactId>arquillian-junit-container</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.jboss.arquillian.container</groupId>
+		<artifactId>arquillian-glassfish-embedded-3.1</artifactId>
+	</dependency>
+	</dependencies>
 </project>
