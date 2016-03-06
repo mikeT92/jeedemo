@@ -1,4 +1,4 @@
-package edu.hm.cs.fwp.jeetrain.presentation.navigation;
+package edu.hm.cs.fwp.jeedemo.jsf.presentation.navigation;
 
 import java.io.Serializable;
 

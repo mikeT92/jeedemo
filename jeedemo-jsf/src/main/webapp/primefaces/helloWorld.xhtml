@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:p="http://primefaces.org/ui" template="/resources/jeedemo/layouts/master.xhtml">
+	<ui:define name="pageTitle">JEEDemo Hello World (PrimeFaces)</ui:define>
+	<ui:define name="content">
+		<h1>Die Welt von JavaServer Faces (PrimeFaces)</h1>
+		<h:form id="helloWorldForm">
+			<p>Wen dürfen wir in der Welt von JSF mit PrimeFaces begrüßen?</p>
+			<p:outputLabel for="userName" value="Name:&#160;" />
+			<p:inputText id="userName" value="#{hello.userName}" />
+			<p:commandButton id="ok" value="OK" action="#{hello.enterWorld}" ajax="false"/>
+		</h:form>
+	</ui:define>
+</ui:composition>

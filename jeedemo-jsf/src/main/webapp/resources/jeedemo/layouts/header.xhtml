@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
+	<div class="logoBanner">
+		<div id="applicationLogo" style="float: left; vertical-align: top;">
+			<h:outputLink id="applicationHome" value="#{request.contextPath}/home/home.jsf">
+				<h:graphicImage library="jeedemo" name="images/application_logo.png" width="312px"
+					height="110px" />
+			</h:outputLink>
+		</div>
+		<div id="companyLogo" style="float: right; vertical-align: top;">
+			<h:graphicImage library="jeedemo" name="images/company_logo.jpg" width="246px" height="104px" />
+		</div>
+		<div style="clear: both;" />
+	</div>
+</ui:composition>

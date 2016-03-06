@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	navigation.xhtml
+	Fragment mit einer horizontalen Menüleiste für master.xhtml. 
+ -->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<p:menubar id="menuBar">
+		<p:menuitem value="Home" url="/home/home.jsf" />
+		<p:submenu label="Demos">
+			<p:menuitem value="Hello World" url="/hello/helloWorld.jsf" />
+			<p:menuitem value="Templates" url="/templates/helloWorld.jsf" />
+			<p:menuitem value="PrimeFaces" url="/primefaces/helloWorld.jsf" />
+		</p:submenu>
+		<p:menuitem value="Support" url="/home/support.jsf" />
+		<p:menuitem value="Contact" url="/home/contact.jsf" />
+	</p:menubar>
+</ui:composition>
