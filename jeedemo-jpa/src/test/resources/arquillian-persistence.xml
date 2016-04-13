@@ -6,6 +6,7 @@
 	<persistence-unit name="defaultPersistenceUnit"
 		transaction-type="JTA">
 		<jta-data-source>jdbc/JEEDEMO_DATASOURCE</jta-data-source>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<property name="eclipselink.deploy-on-startup" value="true" />
 		</properties>

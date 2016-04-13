@@ -6,7 +6,7 @@ package edu.hm.cs.fwp.jeedemo.jpa.users.entity;
 
 import static org.junit.Assert.*;
 
-import javax.inject.Inject;
+import javax.ejb.EJB;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -40,7 +40,7 @@ public class UserRepositoryComponentTest {
 				.addAsManifestResource("arquillian-persistence.xml", "persistence.xml");
 	}
 	
-	@Inject
+	@EJB
 	UserRepositoryBean repository;
 	
 	@Test
