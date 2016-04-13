@@ -23,15 +23,20 @@ import org.junit.runner.RunWith;
  *
  */
 @RunWith(Arquillian.class)
-public class ConsumerBeanComponentTest {
+public class ProducerDemoComponentTest {
 
-	/** 
-	 * Erstellt ein JAR mit allen für den Komponententest benötigten Klassen und Ressourcen.
+	/**
+	 * Erstellt ein JAR mit allen für den Komponententest benötigten Klassen und
+	 * Ressourcen.
 	 */
 	@Deployment
 	public static JavaArchive createDeployment() {
-		return ShrinkWrap.create(JavaArchive.class).addClass(ConcreteProduct.class).addClass(ConsumerBean.class)
-				.addClass(ProducerBean.class).addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+		return ShrinkWrap.create(JavaArchive.class) //
+				.addClass(Product.class) //
+				.addClass(ConcreteProduct.class) //
+				.addClass(ConsumerBean.class) //
+				.addClass(ProducerBean.class) //
+				.addAsManifestResource("arquillian-beans.xml", "beans.xml");
 	}
 
 	/**

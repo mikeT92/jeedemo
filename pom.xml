@@ -65,6 +65,16 @@
 						<ejbVersion>3.2</ejbVersion>
 					</configuration>
 				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>sql-maven-plugin</artifactId>
+					<version>1.5</version>
+				</plugin>
+				<plugin>
+					<groupId>org.flywaydb</groupId>
+					<artifactId>flyway-maven-plugin</artifactId>
+					<version>3.2.1</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -80,5 +90,7 @@
 		<module>jeedemo-jsf</module>
 		<module>jeedemo-cdi</module>
 		<module>jeedemo-ws-rest</module>
+		<module>jeedemo-ejb</module>
+		<module>jeedemo-jpa</module>
 	</modules>
 </project>

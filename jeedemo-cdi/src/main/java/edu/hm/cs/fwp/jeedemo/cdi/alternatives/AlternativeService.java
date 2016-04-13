@@ -1,15 +1,18 @@
-/* Service.java
+/*
+ * IReplaceableService.java
+ * jeedemo-cdi
  */
-package edu.hm.cs.fwp.jeedemo.cdi.injection;
+package edu.hm.cs.fwp.jeedemo.cdi.alternatives;
 
 /**
- * Einfacher Service, der über CDI in alle Nutzer injiziert wird.
+ * Einfacher Service, zu dem zur Laufzeit verschiedene Alternativen existieren 
+ * können.
  * 
  * @author theism
  * @version 1.0
  * @since Release 2016.1
  */
-public interface Service {
+public interface AlternativeService {
 
 	/**
 	 * Simple Servicemethode.

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+	version="2.1">
+	<persistence-unit name="defaultPersistenceUnit"
+		transaction-type="JTA">
+		<jta-data-source>jdbc/JEEDEMO_DATASOURCE</jta-data-source>
+		<class>edu.hm.cs.fwp.jeedemo.jpa.users.entity.User</class>
+		<class>edu.hm.cs.fwp.jeedemo.jpa.users.entity.Role</class>
+		<class>edu.hm.cs.fwp.jeedemo.jpa.users.entity.Credential</class>
+		<class>edu.hm.cs.fwp.jeedemo.jpa.tasks.entity.Task</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+		<properties>
+			<property name="eclipselink.deploy-on-startup" value="true" />
+		</properties>
+	</persistence-unit>
+</persistence>

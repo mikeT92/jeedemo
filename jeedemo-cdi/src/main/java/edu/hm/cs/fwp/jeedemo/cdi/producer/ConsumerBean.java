@@ -18,7 +18,7 @@ import javax.inject.Named;
  */
 @Named
 public class ConsumerBean {
-
+	
 	@Inject
 	private Product product;
 	

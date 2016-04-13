@@ -1,6 +1,6 @@
 /* Service.java
  */
-package edu.hm.cs.fwp.jeedemo.cdi.injection;
+package edu.hm.cs.fwp.jeedemo.cdi.interceptor;
 
 /**
  * Einfacher Service, der über CDI in alle Nutzer injiziert wird.

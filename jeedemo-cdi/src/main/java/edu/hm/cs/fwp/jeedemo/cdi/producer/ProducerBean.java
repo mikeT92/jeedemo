@@ -5,6 +5,7 @@
 package edu.hm.cs.fwp.jeedemo.cdi.producer;
 
 import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.InjectionPoint;
 
 /**
  * {@code Factory} für {@link Product}s, deren Instanziierung zu komplex für den

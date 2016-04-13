@@ -1,4 +1,4 @@
-/* ServiceBean.java @(#)%PID%
+/* ServiceBean.java
  */
 package edu.hm.cs.fwp.jeedemo.cdi.injection.impl;
 
