@@ -1,6 +1,5 @@
 package edu.hm.cs.fwp.jeedemo.jpa.users.entity;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -20,17 +19,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 /**
- * User entity representing a registered user of the {@code JEETrain}
- * application.
+ * Registrierter Benutzer der Anwendung JEEDEMO.
  * 
- * @author Michael Theis
+ * @author theism
+ * @version 1.0
+ * @since Release 2016.1
  */
 @Entity
 @Table(name = "T_USER")
@@ -110,7 +109,7 @@ public class User {
 			@JoinColumn(name = "ROLE_ID") })
 	@NotNull
 	@Size(min = 1)
-	private Set<Role> roles = new HashSet<Role>();
+	private Set<Role> roles = new HashSet<>();
 
 	public String getId() {
 		return this.id;

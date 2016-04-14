@@ -3,12 +3,11 @@
 package edu.hm.cs.fwp.jeedemo.jpa.users.entity;
 
 /**
- * Enumeration representing a users gender.
+ * Geschlecht eines {@code User}s.
  * 
- * @author Mike
- * @version %PR% %PRT% %PO%
- * @since release ? 09.01.2011 22:00:11
- *
+ * @author theism
+ * @version 1.0
+ * @since Release 2016.1
  */
 public enum Gender {
 

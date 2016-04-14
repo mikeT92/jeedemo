@@ -7,7 +7,6 @@ package edu.hm.cs.fwp.jeedemo.jpa.users.entity;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 /**
  * {@code Repository} für {@link User}.
@@ -26,11 +25,41 @@ public class UserRepositoryBean {
 	private EntityManager entityManager;
 
 	/**
+	 * Fügt den angegebenen neuen User hinzu.
+	 *
+	 * @param newUser
+	 */
+	public void addUser(User newUser) {
+		this.entityManager.persist(newUser);
+		this.entityManager.flush();
+		this.entityManager.refresh(newUser);
+	}
+
+	/**
 	 * Liest einen einzelnen User über dessen User-ID.
+	 * 
+	 * @param userId
+	 *            User-ID des gesuchten Users
+	 * @return gefundener User, falls ein User mit der angegebenen ID gefunden
+	 *         werden kann; sonst {@code null}.
 	 */
 	public User getUserById(String userId) {
-		TypedQuery<User> query = this.entityManager.createNamedQuery(User.QUERY_BY_ID, User.class);
-		query.setParameter("userId", userId);
-		return query.getSingleResult();
+		return this.entityManager.find(User.class, userId);
+	}
+
+	/**
+	 * Löscht den angegebenen Benutzer.
+	 */
+	public void removeUser(User user) {
+		User mergedUser = this.entityManager.merge(user);
+		this.entityManager.remove(mergedUser);
+	}
+
+	/**
+	 * Löscht den Benutzer mit der angegebenen User-ID.
+	 */
+	public void removeUserById(String userId) {
+		User user = this.entityManager.getReference(User.class, userId);
+		this.entityManager.remove(user);
 	}
 }

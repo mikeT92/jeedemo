@@ -1,4 +1,6 @@
-/* Role.java @(#)%PID%
+/*
+ * Role.java
+ * jeedemo-jpa
  */
 package edu.hm.cs.fwp.jeedemo.jpa.users.entity;
 
@@ -12,16 +14,20 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
- * Role that can be assigned to a JEETRAIN user.
- *  
- * @author Michael Theis
+ * Rolle, die einem {@code User} zugewiesen werden kann.
+ * 
+ * @author theism
+ * @version 1.0
+ * @since Release 2016.1
  */
 @Entity
 @Table(name = "T_ROLE")
 @NamedQueries({@NamedQuery(name=Role.QUERY_ALL, query = "SELECT r FROM Role r")})
 public class Role implements Serializable {
 
-	private static final String QUERY_NAME_PREFIX = "edu.hm.cs.fwp.jeetrain.business.users.entity.Role.";
+	private static final long serialVersionUID = 2507309375182288402L;
+
+	private static final String QUERY_NAME_PREFIX = "edu.hm.cs.fwp.jeedemo.jpa.users.entity.Role.";
 	
 	public static final String QUERY_ALL = QUERY_NAME_PREFIX + "QUERY_ALL";
 	
