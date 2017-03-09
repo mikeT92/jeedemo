@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>edu.hm.cs.fwp.jeedemo</groupId>
 		<artifactId>jeedemo</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 	<artifactId>jeedemo-cdi</artifactId>
 	<dependencies>
@@ -16,11 +16,6 @@
 			<groupId>org.jboss.arquillian.junit</groupId>
 			<artifactId>arquillian-junit-container</artifactId>
 		</dependency>
-<!-- 		<dependency>
-			<groupId>org.jboss.arquillian.container</groupId>
-			<artifactId>arquillian-glassfish-embedded-3.1</artifactId>
-		</dependency>
- -->
 		<dependency>
 			<groupId>org.jboss.arquillian.container</groupId>
 			<artifactId>arquillian-glassfish-remote-3.1</artifactId>

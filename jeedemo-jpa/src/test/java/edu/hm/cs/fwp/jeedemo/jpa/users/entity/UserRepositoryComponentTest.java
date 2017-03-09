@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.After;
 import org.junit.Before;
@@ -35,18 +36,16 @@ public class UserRepositoryComponentTest {
 	 * Ressourcen.
 	 */
 	@Deployment
-	public static WebArchive createDeployment() {
-		return ShrinkWrap.create(WebArchive.class, "UserRepositoryComponentTest.war")//
+	public static JavaArchive createDeployment() {
+		return ShrinkWrap.create(JavaArchive.class)//
 				.addClass(Credential.class)//
 				.addClass(Gender.class)//
 				.addClass(Role.class)//
 				.addClass(RoleRepositoryBean.class)//
 				.addClass(User.class)//
 				.addClass(UserRepositoryBean.class)//
-				.addAsWebInfResource("arquillian-beans.xml", "beans.xml")//
-				// ACHTUNG: In WARs muss persistence.xml unter
-				// /WEB-INF/classes/META-INF stehen!!!
-				.addAsResource("arquillian-persistence.xml", "/META-INF/persistence.xml");
+				.addAsManifestResource("arquillian-beans.xml", "beans.xml")//
+				.addAsManifestResource("arquillian-persistence.xml", "persistence.xml");
 	}
 
 	@Inject

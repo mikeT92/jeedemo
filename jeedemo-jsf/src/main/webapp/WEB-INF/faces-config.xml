@@ -3,13 +3,12 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
 	version="2.2">
 	<application>
-		<message-bundle>resources.application</message-bundle>
 		<locale-config>
 			<default-locale>en</default-locale>
 			<supported-locale>de</supported-locale>
 		</locale-config>
 		<resource-bundle>
-			<base-name>edu.hm.cs.fwp.jeedemo.jsf.resources.Messages</base-name>
+			<base-name>edu.hm.cs.fwp.jeedemo.jsf.presentation.resources.Messages</base-name>
 			<var>messages</var>
 		</resource-bundle>
 	</application>

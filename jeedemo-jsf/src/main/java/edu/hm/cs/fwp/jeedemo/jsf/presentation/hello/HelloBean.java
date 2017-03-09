@@ -4,8 +4,11 @@ package edu.hm.cs.fwp.jeedemo.jsf.presentation.hello;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -16,12 +19,13 @@ import javax.validation.constraints.Size;
  * @since release 2016.1 11.04.2013 23:53:35
  */
 @Named("hello")
-@SessionScoped
+@RequestScoped
 public class HelloBean implements Serializable {
 
 	private static final long serialVersionUID = 4069463169212859579L;
-
-	@Size(max = 8)
+	
+	@NotNull
+	@Size(max=8)
 	private String userName;
 
 	public String getUserName() {
@@ -33,6 +37,10 @@ public class HelloBean implements Serializable {
 	}
 
 	public String enterWorld() {
-		return "welcomeUser?faces-redirect=true";
+		FacesContext faces = FacesContext.getCurrentInstance();
+		faces.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Hallo da draußen!", "Faces-Information"));
+		faces.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hier ist was schiefgegangen!", "Faces-Error"));
+		return null;
+		// return "welcomeUser?faces-redirect=true";
 	}
 }

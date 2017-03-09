@@ -4,6 +4,8 @@
  */
 package edu.hm.cs.fwp.jeedemo.cdi.interceptor;
 
+import java.util.logging.Logger;
+
 import javax.annotation.Priority;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
@@ -21,15 +23,17 @@ import javax.interceptor.InvocationContext;
 @Interceptor
 @Priority(Interceptor.Priority.APPLICATION)
 public class TraceInterceptor {
+	private static final Logger logger = Logger.getLogger(TraceInterceptor.class.getName());
+	
 	@AroundInvoke
 	public Object traceMethodInvocation(InvocationContext context) throws Exception {
 		Object result = null;
-		System.out.println(buildBeforeInvocationEntry(context));
+		logger.info(buildBeforeInvocationEntry(context));
 		try {
 			result = context.proceed();
-			System.out.println(buildAfterInvocationEntry(context, result));
+			logger.info(buildAfterInvocationEntry(context, result));
 		} catch (Exception ex) {
-			System.err.println(buildOnExceptionEntry(context, ex));
+			logger.severe(buildOnExceptionEntry(context, ex));
 		}
 		return result;
 	}

@@ -6,8 +6,9 @@
 	<ui:define name="content">
 		<h1>Die Welt von JavaServer Faces (PrimeFaces)</h1>
 		<h:form id="helloWorldForm">
+			<p:growl globalOnly="false" />
 			<p>Wen dürfen wir in der Welt von JSF mit PrimeFaces begrüßen?</p>
-			<p:outputLabel for="userName" value="Name:&#160;" />
+			<p:outputLabel for="userName" value="Name:&#160;" />&#160;
 			<p:inputText id="userName" value="#{hello.userName}" />
 			<p:commandButton id="ok" value="OK" action="#{hello.enterWorld}" ajax="false"/>
 		</h:form>

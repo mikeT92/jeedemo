@@ -20,8 +20,8 @@ import edu.hm.cs.fwp.jeedemo.cdi.injection.impl.ServiceBean;
  * Einfacher Komponententest zur Demonstration von Dependency Injection.
  * 
  * @author theism
- * @version %PR% %PRT% %PO%
- * @since release 1.0 24.04.2013 22:08:13
+ * @version 1.0
+ * @since 24.04.2013 22:08:13
  */
 @RunWith(Arquillian.class)
 public class InjectionDemoComponentTest {

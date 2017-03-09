@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.hm.cs.fwp.jeedemo</groupId>
 	<artifactId>jeedemo</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>pom</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -12,8 +12,8 @@
 		<dependencies>
 			<dependency>
 				<groupId>edu.hm.cs.fwp.bom</groupId>
-				<artifactId>jee7-glassfish4-bom</artifactId>
-				<version>0.7.5</version>
+				<artifactId>jee7-payara4-bom</artifactId>
+				<version>1.0.0</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -23,16 +23,22 @@
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-endorsed-api</artifactId>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.glassfish.main.extras</groupId>
-			<artifactId>glassfish-embedded-all</artifactId>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>fish.payara.extras</groupId>
+			<artifactId>payara-embedded-all</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<build>
@@ -88,12 +94,13 @@
 		</repository>
 	</repositories>
 	<modules>
+		<module>jeedemo-cdi</module>
+		<module>jeedemo-ejb</module>
+		<module>jeedemo-jpa</module>
 		<module>jeedemo-jsp</module>
 		<module>jeedemo-servlet</module>
 		<module>jeedemo-jsf</module>
-		<module>jeedemo-cdi</module>
 		<module>jeedemo-ws-rest</module>
-		<module>jeedemo-ejb</module>
-		<module>jeedemo-jpa</module>
+		<module>jeedemo-jaxrs</module>
 	</modules>
 </project>

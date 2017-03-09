@@ -9,7 +9,6 @@ import javax.inject.Named;
 /**
  * Generator für Task-IDs.
  * @author theism
- *
  */
 @Named
 public class TaskIdGeneratorBean {
