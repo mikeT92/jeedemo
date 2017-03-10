@@ -1,4 +1,6 @@
-/* TaskPriority.java @(#)%PID%
+/*
+ * jeedemo-jaxrs:TaskPriority.java
+ * Copyright (c) Michael Theis 2017
  */
 package edu.hm.cs.fwp.jeedemo.jaxrs.core.tasks.entity;
 
@@ -11,9 +13,5 @@ package edu.hm.cs.fwp.jeedemo.jaxrs.core.tasks.entity;
  */
 public enum TaskPriority {
 
-	UNDEFINED,
-	LOW,
-	MEDIUM,
-	HIGH,
-	CRITICAL
+	UNDEFINED, LOW, MEDIUM, HIGH, CRITICAL
 }

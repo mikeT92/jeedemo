@@ -4,17 +4,15 @@
  */
 package edu.hm.cs.fwp.jeedemo.jaxrs;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-import edu.hm.cs.fwp.jeedemo.jaxrs.port.hello.rest.HelloWorldResource;
-import edu.hm.cs.fwp.jeedemo.jaxrs.port.tasks.rest.TasksResource;
-
 /**
  * REST configuration for this application.
+ * <p>
+ * Mandatory for {@code JAX-RS}: This is the only way to trigger REST endpoint
+ * support.
+ * </p>
  * 
  * @author theism
  * @version 1.0
@@ -23,17 +21,4 @@ import edu.hm.cs.fwp.jeedemo.jaxrs.port.tasks.rest.TasksResource;
 @ApplicationPath("rest")
 public class RestApplicationConfig extends Application {
 
-	/**
-	 * Returns list of classes which are REST resources or in other words REST
-	 * endpoints.
-	 * 
-	 * @see javax.ws.rs.core.Application#getClasses()
-	 */
-	@Override
-	public Set<Class<?>> getClasses() {
-		Set<Class<?>> result = new HashSet<>();
-		result.add(HelloWorldResource.class);
-		result.add(TasksResource.class);
-		return result;
-	}
 }

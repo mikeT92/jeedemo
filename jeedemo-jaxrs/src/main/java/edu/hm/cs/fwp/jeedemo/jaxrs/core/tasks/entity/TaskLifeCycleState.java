@@ -1,13 +1,15 @@
-/* TaskLifeCycleState.java @(#)%PID%
+/*
+ * jeedemo-jaxrs:TaskLifeCycleState.java
+ * Copyright (c) Michael Theis 2017
  */
 package edu.hm.cs.fwp.jeedemo.jaxrs.core.tasks.entity;
 
 /**
  * Enumeration representing the life-cycle of a {@link Task}.
  * 
- * @author p534184
- * @version %PR% %PRT% %PO%
- * @since release 1.0 31.10.2012 11:39:50
+ * @author theism
+ * @version 1.0
+ * @since 09.03.2017
  */
 public enum TaskLifeCycleState {
 	/**
@@ -30,7 +32,8 @@ public enum TaskLifeCycleState {
 	 * Next statuses:
 	 * </p>
 	 * <ul>
-	 * <li>CLOSED_REVOKED, if the requester revokes the task before its completion</li>
+	 * <li>CLOSED_REVOKED, if the requester revokes the task before its
+	 * completion</li>
 	 * <li>CLOSED_CANCELLED, if the task is cancelled by a responsible</li>
 	 * </ul>
 	 */
@@ -44,7 +47,8 @@ public enum TaskLifeCycleState {
 	 */
 	CLOSED_REVOKED,
 	/**
-	 * Task is closed and has been cancelled by cancelled; associated service is not deployed.
+	 * Task is closed and has been cancelled by cancelled; associated service is
+	 * not deployed.
 	 */
 	CLOSED_CANCELLED
 }

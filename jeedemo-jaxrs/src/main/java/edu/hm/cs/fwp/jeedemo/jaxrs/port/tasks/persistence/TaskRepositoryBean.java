@@ -17,7 +17,7 @@ import javax.persistence.Id;
 import edu.hm.cs.fwp.jeedemo.jaxrs.core.tasks.entity.Task;
 
 /**
- * {@Repository} mock persisting Task entities in an internal map.
+ * {@Boundary} mock persisting Task entities in an internal map.
  * 
  * @author theism
  * @version 1.0

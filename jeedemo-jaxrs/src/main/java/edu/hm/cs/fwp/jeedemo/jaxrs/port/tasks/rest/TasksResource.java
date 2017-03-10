@@ -7,7 +7,7 @@ package edu.hm.cs.fwp.jeedemo.jaxrs.port.tasks.rest;
 import java.net.URI;
 import java.util.List;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -34,13 +34,17 @@ import edu.hm.cs.fwp.jeedemo.jaxrs.core.tasks.entity.Task;
  * maps REST requests to business method invocations to keep REST protocol logic
  * separate from business logic.
  * </p>
+ * <p>
+ * Implemented as a stateless session bean due to make injection of other
+ * session beans work.
+ * </p>
  * 
  * @author theism
  * @version 1.0
  * @since 08.03.2017
  */
-@Stateless
 @Path("tasks")
+@RequestScoped
 public class TasksResource {
 
 	@Context
