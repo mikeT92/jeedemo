@@ -2,7 +2,7 @@
  */
 package edu.hm.cs.fwp.jeedemo.cdi.injection.impl;
 
-import javax.inject.Named;
+import javax.ejb.Stateless;
 
 import edu.hm.cs.fwp.jeedemo.cdi.injection.Service;
 
@@ -13,8 +13,11 @@ import edu.hm.cs.fwp.jeedemo.cdi.injection.Service;
  * @version %PR% %PRT% %PO%
  * @since release 1.0 24.04.2013 22:00:28
  */
-@Named
+// @Named
+@Stateless
 public class ServiceBean implements Service {
+
+	String status;
 
 	/**
 	 * @see edu.hm.cs.fwp.jeedemo.cdi.injection.Service#doSomething(java.lang.String)
@@ -24,4 +27,3 @@ public class ServiceBean implements Service {
 		return "done: " + what;
 	}
 }
-

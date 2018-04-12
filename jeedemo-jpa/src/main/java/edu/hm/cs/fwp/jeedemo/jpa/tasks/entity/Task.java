@@ -1,8 +1,5 @@
-/* Task.java @(#)%PID%
- */
 package edu.hm.cs.fwp.jeedemo.jpa.tasks.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -22,7 +19,7 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import edu.hm.cs.fwp.jeedemo.jpa.core.persistence.AuditableEntity;
+import edu.hm.cs.fwp.jeedemo.jpa.common.persistence.audit.AbstractAuditableEntity;
 
 /**
  * {@code Entity} type that represents tasks.
@@ -33,15 +30,12 @@ import edu.hm.cs.fwp.jeedemo.jpa.core.persistence.AuditableEntity;
  */
 @Entity
 @Table(name = "T_TASK")
-@NamedQueries({
-		@NamedQuery(name = Task.QUERY_ALL, query = "SELECT t FROM Task t ORDER BY t.id"),
+@NamedQueries({ @NamedQuery(name = Task.QUERY_ALL, query = "SELECT t FROM Task t ORDER BY t.id"),
 		@NamedQuery(name = Task.COUNT_ALL, query = "SELECT COUNT(t) FROM Task t") })
-public class Task implements Serializable, AuditableEntity {
-
-	private static final long serialVersionUID = 6549807945660625663L;
+public class Task extends AbstractAuditableEntity {
 
 	private static final String JPA_NAME_PREFIX = "edu.hm.cs.fwp.jeetrain.business.tasks.entity.Task.";
-	
+
 	public static final String QUERY_ALL = JPA_NAME_PREFIX + "QUERY_ALL";
 
 	public static final String COUNT_ALL = JPA_NAME_PREFIX + "COUNT_ALL";
@@ -155,8 +149,8 @@ public class Task implements Serializable, AuditableEntity {
 	/**
 	 * Project-ID of the project this task is related to.
 	 * <p>
-	 * Equals {@link #affectedApplicationId} if this is a application
-	 * maintenance task not related to a specific project.
+	 * Equals {@link #affectedApplicationId} if this is a application maintenance
+	 * task not related to a specific project.
 	 * </p>
 	 */
 	@Size(max = 16)
@@ -384,21 +378,21 @@ public class Task implements Serializable, AuditableEntity {
 	}
 
 	/**
-	 * @see edu.hm.cs.fwp.jeedemo.jpa.core.persistence.AuditableEntity#getCreatorId()
+	 * @see edu.hm.cs.fwp.jeedemo.jpa.common.persistence.audit.AuditableEntity#getCreatorId()
 	 */
 	public String getCreatorId() {
 		return this.creatorId;
 	}
 
 	/**
-	 * @see edu.hm.cs.fwp.jeedemo.jpa.core.persistence.AuditableEntity#getCreationDate()
+	 * @see edu.hm.cs.fwp.jeedemo.jpa.common.persistence.audit.AuditableEntity#getCreationDate()
 	 */
 	public Date getCreationDate() {
 		return this.creationDate;
 	}
 
 	/**
-	 * @see edu.hm.cs.fwp.jeedemo.jpa.core.persistence.AuditableEntity#trackCreation(java.lang.String,
+	 * @see edu.hm.cs.fwp.jeedemo.jpa.common.persistence.audit.AuditableEntity#trackCreation(java.lang.String,
 	 *      java.util.Date)
 	 */
 	public void trackCreation(String creatorId, Date creationDate) {
@@ -413,25 +407,24 @@ public class Task implements Serializable, AuditableEntity {
 	}
 
 	/**
-	 * @see edu.hm.cs.fwp.jeedemo.jpa.core.persistence.AuditableEntity#getLastModifierId()
+	 * @see edu.hm.cs.fwp.jeedemo.jpa.common.persistence.audit.AuditableEntity#getLastModifierId()
 	 */
 	public String getLastModifierId() {
 		return this.lastModifierId;
 	}
 
 	/**
-	 * @see edu.hm.cs.fwp.jeedemo.jpa.core.persistence.AuditableEntity#getLastModificationDate()
+	 * @see edu.hm.cs.fwp.jeedemo.jpa.common.persistence.audit.AuditableEntity#getLastModificationDate()
 	 */
 	public Date getLastModificationDate() {
 		return this.lastModificationDate;
 	}
 
 	/**
-	 * @see edu.hm.cs.fwp.jeedemo.jpa.core.persistence.AuditableEntity#trackModification(java.lang.String,
+	 * @see edu.hm.cs.fwp.jeedemo.jpa.common.persistence.audit.AuditableEntity#trackModification(java.lang.String,
 	 *      java.util.Date)
 	 */
-	public void trackModification(String lastModifierId,
-			Date lastModificationDate) {
+	public void trackModification(String lastModifierId, Date lastModificationDate) {
 		this.lastModificationDate = lastModificationDate;
 		this.lastModifierId = lastModifierId;
 	}
@@ -469,7 +462,6 @@ public class Task implements Serializable, AuditableEntity {
 	 */
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + " { id : " + this.id
-				+ ", version : " + this.version + " }";
+		return getClass().getSimpleName() + " { id : " + this.id + ", version : " + this.version + " }";
 	}
 }

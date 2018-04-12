@@ -21,7 +21,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.filter.LoggingFilter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,8 +39,8 @@ import edu.hm.cs.fwp.jeedemo.jaxrs.test.rest.RestEndpointUriBuilder;
  * </p>
  * 
  * @author theism
- * @version 1.0
- * @since 09.03.2017
+ * @version 1.1
+ * @since release 2018
  */
 public class TasksResourceSystemTest {
 
@@ -50,7 +49,8 @@ public class TasksResourceSystemTest {
 
 	@Before
 	public void onBefore() {
-		Configuration clientConfig = new ClientConfig().register(LoggingFilter.class);
+		// TODO: re-integrate client side logging
+		Configuration clientConfig = new ClientConfig();
 		this.restClient = ClientBuilder.newClient(clientConfig);
 		this.restTarget = this.restClient.target(new RestEndpointUriBuilder("tasks").build());
 	}

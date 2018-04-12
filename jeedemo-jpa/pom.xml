@@ -7,7 +7,7 @@
 		<version>1.0.0</version>
 	</parent>
 	<artifactId>jeedemo-jpa</artifactId>
-	<packaging>ejb</packaging>
+	<packaging>war</packaging>
 	<description>Demonstration der Java Persistence Architecture JPA</description>
 	<properties>
 		<mysql.version>5.1.38</mysql.version>
@@ -17,8 +17,8 @@
 		<mysql.admin.password>rootLocal2017</mysql.admin.password>
 		<mysql.driver.classname>com.mysql.jdbc.Driver</mysql.driver.classname>
 		<jeedemodb.url>jdbc:mysql://${mysql.host}:13306/jeedemo_db?useSSL=false</jeedemodb.url>
-		<jeedemodb.admin.user>jeedemo-admin</jeedemodb.admin.user>
-		<jeedemodb.admin.password>admin123</jeedemodb.admin.password>
+		<jeedemodb.admin.user>jeedemo</jeedemodb.admin.user>
+		<jeedemodb.admin.password>fwpss2018</jeedemodb.admin.password>
 	</properties>
 	<dependencies>
 		<dependency>

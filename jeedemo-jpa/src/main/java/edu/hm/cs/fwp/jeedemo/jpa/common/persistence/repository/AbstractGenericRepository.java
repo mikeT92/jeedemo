@@ -1,4 +1,4 @@
-package edu.hm.cs.fwp.jeedemo.jpa.core.persistence;
+package edu.hm.cs.fwp.jeedemo.jpa.common.persistence.repository;
 
 import java.util.List;
 import java.util.NoSuchElementException;

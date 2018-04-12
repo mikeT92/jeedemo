@@ -8,7 +8,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import edu.hm.cs.fwp.jeedemo.jpa.core.persistence.AbstractGenericRepository;
+import edu.hm.cs.fwp.jeedemo.jpa.common.persistence.repository.AbstractGenericRepository;
 
 /**
  * Konkrete Implementierung eines generischen Repositories.
@@ -27,7 +27,7 @@ public class GenericRepositoryBean extends AbstractGenericRepository {
 	EntityManager entityManager;
 	
 	/** 
-	 * @see edu.hm.cs.fwp.jeedemo.jpa.core.persistence.AbstractGenericRepository#getEntityManager()
+	 * @see edu.hm.cs.fwp.jeedemo.jpa.common.persistence.repository.AbstractGenericRepository#getEntityManager()
 	 */
 	@Override
 	protected EntityManager getEntityManager() {

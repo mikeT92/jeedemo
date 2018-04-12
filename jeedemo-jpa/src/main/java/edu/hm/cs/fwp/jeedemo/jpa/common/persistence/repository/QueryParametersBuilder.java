@@ -1,6 +1,4 @@
-/* QueryParametersBuilder.java @(#)%PID%
- */
-package edu.hm.cs.fwp.jeedemo.jpa.core.persistence;
+package edu.hm.cs.fwp.jeedemo.jpa.common.persistence.repository;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,18 +7,18 @@ import java.util.List;
 /**
  * {@code Builder} implementation that helps to create lists of
  * {@code QueryParameter}s.
- * 
- * @author p534184
- * @version %PR% %PRT% %PO%
- * @since release 1.0 12.03.2012 13:20:40
+ *
+ * @author Michael Theis (msg)
+ * @version 1.0
+ * @since release 18.2
  */
 public final class QueryParametersBuilder {
 
 	private final List<QueryParameter> parameters;
 
 	/**
-	 * Constructs a new builder instance creating a parameter list using an
-	 * initial default size.
+	 * Constructs a new builder instance creating a parameter list using an initial
+	 * default size.
 	 */
 	public QueryParametersBuilder() {
 		this.parameters = new ArrayList<QueryParameter>();
@@ -33,7 +31,7 @@ public final class QueryParametersBuilder {
 	 * Of course, the parameter list is capable of holding more parameters than
 	 * specified here.
 	 * </p>
-	 * 
+	 *
 	 * @param numberOfParameters
 	 *            expected number of parameters
 	 */
@@ -43,9 +41,12 @@ public final class QueryParametersBuilder {
 
 	/**
 	 * Adds the parameter with the given name and value to the parameter list.
-	 * @param name parameter name; must not be empty.
-	 * @param value parameter value; must not be {@code null}
-	 * @return this builder instance to enable contatenation of method calls.
+	 *
+	 * @param name
+	 *            parameter name; must not be empty.
+	 * @param value
+	 *            parameter value; must not be {@code null}
+	 * @return this builder instance to provide a fluent API.
 	 */
 	public QueryParametersBuilder withParameter(String name, Object value) {
 		this.parameters.add(new QueryParameter(name, value));

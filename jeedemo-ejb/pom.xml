@@ -7,7 +7,7 @@
 		<version>1.0.0</version>
 	</parent>
 	<artifactId>jeedemo-ejb</artifactId>
-	<packaging>ejb</packaging>
+	<packaging>war</packaging>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -25,8 +25,8 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>fish.payara.extras</groupId>
-			<artifactId>payara-embedded-all</artifactId>
+			<groupId>org.glassfish.main.extras</groupId>
+			<artifactId>glassfish-embedded-all</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

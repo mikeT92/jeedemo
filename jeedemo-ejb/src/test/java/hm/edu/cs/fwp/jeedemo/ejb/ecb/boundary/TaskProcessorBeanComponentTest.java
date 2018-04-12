@@ -10,11 +10,12 @@ import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import hm.edu.cs.fwp.jeedemo.ejb.common.test.ComponentTestArtifacts;
+import hm.edu.cs.fwp.jeedemo.ejb.ecb.control.TaskIdGeneratorBean;
 import hm.edu.cs.fwp.jeedemo.ejb.ecb.entity.Status;
 import hm.edu.cs.fwp.jeedemo.ejb.ecb.entity.Task;
 
@@ -30,13 +31,16 @@ public class TaskProcessorBeanComponentTest {
 	TaskProcessor underTest;
 
 	/**
-	 * Erstellt das zu deployende EJB-Modul mit allen für den Test
-	 * erforderlichen Klassen und Ressourcen.
+	 * Erstellt das zu deployende EJB-Modul mit allen für den Test erforderlichen
+	 * Klassen und Ressourcen.
 	 */
 	@Deployment
-	public static JavaArchive createDeployment() {
-		return ShrinkWrap.create(JavaArchive.class).addPackages(true, "hm.edu.cs.fwp.jeedemo.ejb.ecb")
-				.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+	public static WebArchive createDeployment() {
+		WebArchive result = ShrinkWrap.create(WebArchive.class).addClass(TaskProcessor.class)
+				.addClass(TaskProcessorBean.class).addClass(TaskIdGeneratorBean.class).addClass(Task.class)
+				.addClass(Status.class);
+		ComponentTestArtifacts.attachToDeployment(result);
+		return result;
 	}
 
 	/**

@@ -14,7 +14,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.filter.LoggingFilter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,8 +28,8 @@ import edu.hm.cs.fwp.jeedemo.jaxrs.test.rest.RestEndpointUriBuilder;
  * </p>
  * 
  * @author theism
- * @version 1.0
- * @since 10.03.2017
+ * @version 1.1
+ * @since release 2018
  */
 public class ContentNegotiationResourceSystemTest {
 
@@ -39,7 +38,8 @@ public class ContentNegotiationResourceSystemTest {
 
 	@Before
 	public void onBefore() {
-		Configuration clientConfig = new ClientConfig().register(LoggingFilter.class);
+		// TODO: re-integrate client side logging
+		Configuration clientConfig = new ClientConfig();
 		this.restClient = ClientBuilder.newClient(clientConfig);
 		this.restTarget = this.restClient.target(new RestEndpointUriBuilder("contentTypes").build());
 	}

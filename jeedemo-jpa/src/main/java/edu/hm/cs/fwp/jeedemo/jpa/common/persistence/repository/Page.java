@@ -1,14 +1,8 @@
-/* Page.java @(#)%PID%
- */
-package edu.hm.cs.fwp.jeedemo.jpa.core.persistence;
+package edu.hm.cs.fwp.jeedemo.jpa.common.persistence.repository;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
 
 /**
  * Data transfer object that represents a page of results (for page-by-page
@@ -17,13 +11,11 @@ import javax.xml.bind.annotation.XmlType;
  * This implementation is based on the ValueListHandler pattern as presented on
  * the CORE JavaEE Patterns website.
  * </p>
- * 
- * @author p534184
- * @version %PR% %PRT% %PO%
- * @since release 1.0
+ *
+ * @author Michael Theis (msg)
+ * @version 1.0
+ * @since release 18.2
  */
-@XmlType(name = "Page", namespace = "http://persistence.core.framework.utrain.unicredit.eu")
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Page<E> implements Serializable, Comparable<Page<E>> {
 
 	private static final long serialVersionUID = 170679486581687646L;
@@ -34,8 +26,8 @@ public class Page<E> implements Serializable, Comparable<Page<E>> {
 	private final List<E> elements;
 
 	/**
-	 * Zero-based index of the first element in this page in the list of
-	 * available elements.
+	 * Zero-based index of the first element in this page in the list of available
+	 * elements.
 	 */
 	private final int firstPosition;
 
@@ -69,21 +61,20 @@ public class Page<E> implements Serializable, Comparable<Page<E>> {
 	 * result set containing the specified number of elements at the specified
 	 * position.
 	 * <p>
-	 * Accepts <code>long</code> values as total number of elements since
-	 * counting queries return long values not int values. JPA only supports
-	 * only int values for firstResult and maxResult, so for sake of simplicity
-	 * we internally stick to int values for numberOfElements as well, assuming
-	 * that traversing through result sets with more than 2 million records does
-	 * not make sense anyway.
+	 * Accepts <code>long</code> values as total number of elements since counting
+	 * queries return long values not int values. JPA only supports only int values
+	 * for firstResult and maxResult, so for sake of simplicity we internally stick
+	 * to int values for numberOfElements as well, assuming that traversing through
+	 * result sets with more than 2 million records does not make sense anyway.
 	 * </p>
-	 * 
+	 *
 	 * @throws IllegalArgumentException
 	 *             - if numberOfElements > Integer.MAX_VALUE
 	 */
 	public Page(List<E> pageElements, int elementIndex, long numberOfElements) {
 		if (numberOfElements > Integer.MAX_VALUE) {
-			throw new IllegalArgumentException("Value of parameter numberOfElements ["
-					+ Long.toString(numberOfElements) + "] exceeds range of integer values!");
+			throw new IllegalArgumentException("Value of parameter numberOfElements [" + Long.toString(numberOfElements)
+					+ "] exceeds range of integer values!");
 		}
 		this.elements = new ArrayList<E>(pageElements);
 		this.firstPosition = elementIndex;
@@ -92,7 +83,7 @@ public class Page<E> implements Serializable, Comparable<Page<E>> {
 
 	/**
 	 * Returns the list of elements contained in this page.
-	 * 
+	 *
 	 * @return list of elements; may be empty but never <code>null</code>.
 	 */
 	public List<E> getElements() {
@@ -102,9 +93,9 @@ public class Page<E> implements Serializable, Comparable<Page<E>> {
 	/**
 	 * Returns the total number of elements available in the result set.
 	 * <p>
-	 * Please note that implementations of repositories that support pagination
-	 * are required to initialize this property only if the first page at
-	 * element index 0 is retrieved.
+	 * Please note that implementations of repositories that support pagination are
+	 * required to initialize this property only if the first page at element index
+	 * 0 is retrieved.
 	 * </p>
 	 */
 	public int getNumberOfElements() {
@@ -126,8 +117,8 @@ public class Page<E> implements Serializable, Comparable<Page<E>> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + firstPosition;
-		result = prime * result + numberOfElements;
+		result = prime * result + this.firstPosition;
+		result = prime * result + this.numberOfElements;
 		return result;
 	}
 
@@ -137,23 +128,29 @@ public class Page<E> implements Serializable, Comparable<Page<E>> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (!(obj instanceof Page))
+		}
+		if (!(obj instanceof Page)) {
 			return false;
-		Page<E> other = (Page<E>) obj;
-		if (firstPosition != other.firstPosition)
+		}
+		final Page<E> other = (Page<E>) obj;
+		if (this.firstPosition != other.firstPosition) {
 			return false;
-		if (numberOfElements != other.numberOfElements)
+		}
+		if (this.numberOfElements != other.numberOfElements) {
 			return false;
+		}
 		return true;
 	}
 
 	/**
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
+	@Override
 	public int compareTo(Page<E> other) {
 		return this.firstPosition - other.firstPosition;
 	}
@@ -161,9 +158,9 @@ public class Page<E> implements Serializable, Comparable<Page<E>> {
 	/**
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
-		return "Page { pageSize : " + this.elements.size() + ", firstPosition : "
-				+ this.firstPosition + ", numberOfElements : "
-						+ this.numberOfElements + " }";
+		return "Page { pageSize : " + this.elements.size() + ", firstPosition : " + this.firstPosition
+				+ ", numberOfElements : " + this.numberOfElements + " }";
 	}
 }

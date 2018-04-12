@@ -21,8 +21,8 @@ import javax.enterprise.inject.Produces;
 public class ProducerBean {
 
 	/**
-	 * Factory-Methode, die vom CDI-Container aufgerufen wird, sobald ein Bean
-	 * ein {@code Product} injiziert bekommen will.
+	 * Factory-Methode, die vom CDI-Container aufgerufen wird, sobald ein Bean ein
+	 * {@code Product} injiziert bekommen will.
 	 *
 	 * @return konkretes Produkt
 	 */

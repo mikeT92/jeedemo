@@ -7,7 +7,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import edu.hm.cs.fwp.jeedemo.cdi.injection.Consumer;
-import edu.hm.cs.fwp.jeedemo.cdi.injection.Service;
 
 /**
  * Simple consumer class managed by CDI.
@@ -20,18 +19,19 @@ import edu.hm.cs.fwp.jeedemo.cdi.injection.Service;
 public class ConsumerBean implements Consumer {
 
 	@Inject
-	private Service service;
-	
+	ServiceBean service;
+
 	@PostConstruct
 	public void onPostConstruct() {
 		System.out.println(getClass().getName() + "#onPostConstruct(): service=" + this.service);
 	}
-	
+
 	/**
 	 * @see edu.hm.cs.fwp.jeedemo.cdi.injection.Consumer#useService(java.lang.String)
 	 */
 	@Override
 	public String useService(String what) {
+		this.service.status = "hallo!";
 		return this.service.doSomething(what);
 	}
 }
