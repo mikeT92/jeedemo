@@ -18,7 +18,7 @@ import javax.ws.rs.core.Application;
  * @version 1.0
  * @since 09.03.2017
  */
-@ApplicationPath("rest")
+@ApplicationPath("api")
 public class RestApplicationConfig extends Application {
 
 }
