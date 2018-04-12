@@ -22,12 +22,16 @@ public class AuditableEntityListener {
 
 	@PrePersist
 	public void onPrePersist(AbstractAuditableEntity entity) {
-		entity.trackCreation(this.principal.getName(), LocalDateTime.now());
+		entity.trackCreation(getAuthenticatedUserId(), LocalDateTime.now());
 	}
 
 	@PreUpdate
 	public void onPreUpdate(AbstractAuditableEntity entity) {
-		entity.trackModification(this.principal.getName(), LocalDateTime.now());
+		entity.trackModification(getAuthenticatedUserId(), LocalDateTime.now());
+	}
+
+	private String getAuthenticatedUserId() {
+		return this.principal != null ? this.principal.getName() : "anonymous";
 	}
 
 }

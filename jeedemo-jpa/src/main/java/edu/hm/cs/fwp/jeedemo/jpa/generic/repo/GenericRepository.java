@@ -24,9 +24,9 @@ public class GenericRepository extends AbstractGenericRepository {
 	 * Konkreter PersistenceContext für eine bestimmte PersistenceUnit
 	 */
 	@PersistenceContext
-	EntityManager entityManager;
-	
-	/** 
+	private EntityManager entityManager;
+
+	/**
 	 * @see edu.hm.cs.fwp.jeedemo.jpa.common.persistence.repository.AbstractGenericRepository#getEntityManager()
 	 */
 	@Override

@@ -2,68 +2,102 @@ package edu.hm.cs.fwp.jeedemo.jpa.common.persistence.repository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.logging.Logger;
 
+import javax.annotation.Resource;
+import javax.ejb.SessionContext;
 import javax.persistence.EntityManager;
-import javax.persistence.NonUniqueResultException;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-import javax.validation.constraints.NotNull;
 
 /**
- * Generisches {@code Repository} als dünne Schicht über einem
- * {@link EntityManager}, um gemeinsame JPA-Zugriffe immer auf die gleiche Art
- * und Weise zu lösen.
- * 
- * @author theism
+ * Generic {@code Repository} providing a thin abstraction layer for a JPA
+ * {@link EntityManager}, in order to have a common implementation of common JPA
+ * access methods.
+ * <p>
+ * Concrete stateless session bean subclasses have to implement
+ * {@link #getEntityManager()} in order to provide an entity manager for a
+ * specific persistence unit. Due to this delegation,
+ * {@code AbstractGenericRepositoryBean} is able to support multiple persistence
+ * units in one JPA module.
+ * </p>
+ *
+ * @author Michael Theis (msg)
  * @version 1.0
- * @since R2016.1 24.03.2015
+ * @since release 18.2
  */
 public abstract class AbstractGenericRepository {
 
+	protected final Logger logger = Logger.getLogger(getClass().getName());
+
 	/**
-	 * Fügt die angegebene Entität in den Datastore ein und synchronisiert diese
-	 * mit datastore-seitig generierten beziehungsweise veränderten Feldern.
-	 * 
-	 * @param entity
-	 *            hinzuzufügende Entität (erforderlich)
+	 * SessionContext to obtain the currently authenticated user.
 	 */
-	public void addEntity(@NotNull Object entity) {
-		getEntityManager().persist(entity);
-		getEntityManager().flush();
-		getEntityManager().refresh(entity);
+	@Resource
+	SessionContext sessionContext;
+
+	/**
+	 * Adds the given {@code Entity} to the datastore and updates the given entity
+	 * with the current state of the datastore.
+	 *
+	 * @param entity
+	 *            entity to be added to the datastore
+	 */
+	public void addEntity(Object entity) {
+		addEntity(entity, true);
 	}
 
 	/**
-	 * Liefert die Entität vom angebenen Typ mit dem angebenen eindeutigen
-	 * technischen Bezeichner zurück.
-	 * 
-	 * @param entityType
-	 *            erwartete Entitätentyp
-	 * @param entityId
-	 *            eindeutiger technischer Bezeichner
-	 * @return gefundene Entität, falls eine Entität mit dem angebenen
-	 *         Bezeichner exisitert; sonst {@code null}
+	 * Adds the given {@code Entity} to the datastore and updates the given entity
+	 * with the current state of the datastore.
+	 *
+	 * @param entity
+	 *            entity to be added to the datastore
+	 * @param refresh
+	 *            controls, if given entity should be refreshed with state modified
+	 *            by the datastore
+	 *
 	 */
-	public <T> T getEntityById(@NotNull Class<T> entityType, @NotNull Object entityId) {
+	public void addEntity(Object entity, boolean refresh) {
+		getEntityManager().persist(entity);
+		if (refresh) {
+			getEntityManager().flush();
+			getEntityManager().refresh(entity);
+		}
+	}
+
+	/**
+	 * Returns an {@code Entity} of the given type having the given unique
+	 * identifier.
+	 *
+	 * @param entityType
+	 *            expected type of the entity
+	 * @param entityId
+	 *            unique primary key of the entity
+	 * @return found entity, if an entity with the given unique identifier could be
+	 *         found; ; otherwise {@code null}
+	 */
+	public <T> T getEntityById(Class<T> entityType, Object entityId) {
 		return getEntityManager().find(entityType, entityId);
 	}
 
 	/**
 	 * Liefert die Entität vom angebenen Typ mit dem angebenen eindeutigen
-	 * technischen Bezeichner zurück, wobei erwartet wird, dass eine Entität mit
-	 * dem angegeben Beeichner existiert.
-	 * 
+	 * technischen Bezeichner zurück, wobei erwartet wird, dass eine Entität mit dem
+	 * angegeben Beeichner existiert.
+	 *
 	 * @param entityType
 	 *            erwartete Entitätentyp
 	 * @param entityId
 	 *            eindeutiger technischer Bezeichner
-	 * @return gefundene Entität, falls eine Entität mit dem angebenen
-	 *         Bezeichner exisitert; niemals {@code null}
+	 * @return gefundene Entität, falls eine Entität mit dem angebenen Bezeichner
+	 *         exisitert; niemals {@code null}
 	 * @throws NoSuchElementException
 	 *             - falls keine Entität mit dem angegebenen Bezeichner gefunden
 	 *             werden kann.
 	 */
-	public @NotNull <T> T getRequiredEntityById(@NotNull Class<T> entityType, @NotNull Object entityId) {
-		T result = getEntityById(entityType, entityId);
+	public <T> T getRequiredEntityById(Class<T> entityType, Object entityId) {
+		final T result = getEntityById(entityType, entityId);
 		if (result == null) {
 			throw new NoSuchElementException("Missing required entity of type [" + entityType.getName()
 					+ "] with unique identifier [" + entityId + "]!");
@@ -78,11 +112,11 @@ public abstract class AbstractGenericRepository {
 	 * Die angegebene Entität muss zuvor mit {{@link #addEntity(Object)} dem
 	 * Datastore hinzugefügt worden sein.
 	 * </p>
-	 * 
+	 *
 	 * @param entity
 	 *            zu aktualisierende Entität
 	 */
-	public void setEntity(@NotNull Object entity) {
+	public void setEntity(Object entity) {
 		getEntityManager().merge(entity);
 	}
 
@@ -92,12 +126,12 @@ public abstract class AbstractGenericRepository {
 	 * Die angegebene Entität muss zuvor mit {{@link #addEntity(Object)} dem
 	 * Datastore hinzugefügt worden sein.
 	 * </p>
-	 * 
+	 *
 	 * @param entity
 	 *            zu löschende Entität
 	 */
-	public void removeEntity(@NotNull Object entity) {
-		Object mergedEntity = getEntityManager().merge(entity);
+	public void removeEntity(Object entity) {
+		final Object mergedEntity = getEntityManager().merge(entity);
 		getEntityManager().remove(mergedEntity);
 	}
 
@@ -108,63 +142,56 @@ public abstract class AbstractGenericRepository {
 	 * Achtung: Beim Löschen über ID ist zu beachten, dass optimistische Sperren
 	 * nicht geprüft werden können.
 	 * </p>
-	 * 
+	 *
 	 * @param entityType
 	 *            erwarteter Entitätentyp
 	 * @param entityId
 	 *            eindeutiger technischer Bezeichner der zu löschende Entität
 	 */
-	public <T> void removeEntityById(@NotNull Class<T> entityType, @NotNull Object entityId) {
-		T entity = getEntityManager().find(entityType, entityId);
+	public <T> void removeEntityById(Class<T> entityType, Object entityId) {
+		final T entity = getEntityManager().find(entityType, entityId);
 		if (entity != null) {
 			getEntityManager().remove(entity);
 		}
 	}
 
 	/**
-	 * Sucht eine einzelne Entität des angegebenen Typs mit der angegebenen
-	 * Named Query und den angegebenen Query-Parametern und liefert das Ergebnis
-	 * der Query zurück.
-	 * 
+	 * Sucht eine einzelne Entität des angegebenen Typs mit der angegebenen Named
+	 * Query und den angegebenen Query-Parametern und liefert das Ergebnis der Query
+	 * zurück.
+	 *
 	 * @param entityType
 	 *            erwarteter Entitätentyp
 	 * @param queryName
 	 *            eindeutiger Name einer Named Query
 	 * @param queryParameters
 	 *            anzuwendende Query-Parameter (optional)
-	 * @return gefundene Entität, falls die Query ein Ergebnis geliefert hat;
-	 *         sonst {@code null}.
-	 * @throws NonUniqueResultException
-	 *             - falls mehr als eine Entität gefunden werden kann
+	 * @return gefundene Entität, falls die Query ein Ergebnis geliefert hat; sonst
+	 *         {@code null}.
 	 */
-	public <T> T queryEntityWithNamedQuery(@NotNull Class<T> entityType, @NotNull String queryName,
-			QueryParameters queryParameters) {
-		TypedQuery<T> query = getEntityManager().createNamedQuery(queryName, entityType);
+	public <T> T queryEntity(Class<T> entityType, String queryName, QueryParameters queryParameters) {
+		final TypedQuery<T> query = getEntityManager().createNamedQuery(queryName, entityType);
 		if (queryParameters != null) {
 			queryParameters.applyParameters(query);
 		}
-		List<T> resultList = query.getResultList();
 		T result = null;
-		if (resultList.size() == 1) {
-			result = resultList.get(0);
-		} else if (resultList.size() > 1) {
-			throw new NonUniqueResultException("Expected query [" + queryName + "] with query parameters ["
-					+ queryParameters + "] to find exactly one entity of type [" + entityType
-					+ "] but actually found many entities!");
+		try {
+			result = query.getSingleResult();
+		} catch (final NoResultException ex) {
+			// Es ist OK wenn nichts gefunden wird
 		}
 		return result;
 	}
 
 	/**
-	 * Sucht eine einzelne Entität des angegebenen Typs mit der angegebenen
-	 * Named Query und den angegebenen Query-Parametern und liefert das Ergebnis
-	 * der Query zurück.
+	 * Sucht eine einzelne Entität des angegebenen Typs mit der angegebenen Named
+	 * Query und den angegebenen Query-Parametern und liefert das Ergebnis der Query
+	 * zurück.
 	 * <p>
-	 * Im Gegensatz zu
-	 * {@link #queryEntityWithNamedQuery(Class, String, QueryParameters)} wird
+	 * Im Gegensatz zu {@link #queryEntity(Class, String, QueryParameters)} wird
 	 * allerdings davon ausgegangen, dass die gewünschte Entität existiert.
 	 * </p>
-	 * 
+	 *
 	 * @param entityType
 	 *            erwarteter Entitätentyp
 	 * @param queryName
@@ -175,9 +202,8 @@ public abstract class AbstractGenericRepository {
 	 * @throws NoSuchElementException
 	 *             - falls keine Entität gefunden werden kann
 	 */
-	public @NotNull <T> T queryRequiredEntityWithNamedQuery(@NotNull Class<T> entityType, @NotNull String queryName,
-			QueryParameters queryParameters) {
-		T result = queryEntityWithNamedQuery(entityType, queryName, queryParameters);
+	public <T> T queryRequiredEntity(Class<T> entityType, String queryName, QueryParameters queryParameters) {
+		final T result = queryEntity(entityType, queryName, queryParameters);
 		if (result == null) {
 			throw new NoSuchElementException(
 					"Expected query [" + queryName + "] with query parameters [" + queryParameters
@@ -187,51 +213,10 @@ public abstract class AbstractGenericRepository {
 	}
 
 	/**
-	 * Sucht eine Menge von Entität des angegebenen Typs mit dem angegebenen
-	 * Query-Statement und den angegebenen Query-Parametern und liefert das
-	 * Ergebnis der Query zurück.
-	 * 
-	 * @param entityType
-	 *            erwarteter Entitätentyp
-	 * @param queryStatement
-	 *            JPQL-Statement
-	 * @param queryParameters
-	 *            anzuwendende Query-Parameter (optional)
-	 * @return Liste der gefundenen Entitäten, niemals {@code null}
-	 */
-	public @NotNull <T> List<T> queryEntities(@NotNull Class<T> entityType, @NotNull String queryStatement,
-			QueryParameters queryParameters) {
-		return queryForList(entityType, getEntityManager().createQuery(queryStatement, entityType), queryParameters, -1, -1);
-	}
-
-	/**
-	 * Sucht eine Menge von Entität des angegebenen Typs mit dem angegebenen
-	 * Query-Statement und den angegebenen Query-Parametern und liefert das
-	 * Ergebnis der Query zurück.
-	 * 
-	 * @param entityType
-	 *            erwarteter Entitätentyp
-	 * @param queryStatement
-	 *            JPQL-Statement
-	 * @param queryParameters
-	 *            anzuwendende Query-Parameter (optional)
-	 * @param pageStartingAt
-	 *            Index des ersten Elements der Seite im Resultset
-	 * @param pageSize
-	 *            Anzahl an Elementen in einer Seite
-	 * @return Liste der gefundenen Entitäten, niemals {@code null}
-	 */
-	public @NotNull <T> List<T> queryEntities(@NotNull Class<T> entityType, @NotNull String queryStatement,
-			QueryParameters queryParameters, int pageStartingAt, int pageSize) {
-		return queryForList(entityType, getEntityManager().createQuery(queryStatement, entityType), queryParameters, pageStartingAt,
-				pageSize);
-	}
-
-	/**
-	 * Sucht eine Menge von Entität des angegebenen Typs mit der angegebenen
-	 * Named Query und den angegebenen Query-Parametern und liefert das Ergebnis
-	 * der Query zurück.
-	 * 
+	 * Sucht eine Menge von Entität des angegebenen Typs mit der angegebenen Named
+	 * Query und den angegebenen Query-Parametern und liefert das Ergebnis der Query
+	 * zurück.
+	 *
 	 * @param entityType
 	 *            erwarteter Entitätentyp
 	 * @param queryName
@@ -240,101 +225,64 @@ public abstract class AbstractGenericRepository {
 	 *            anzuwendende Query-Parameter (optional)
 	 * @return Liste der gefundenen Entitäten, niemals {@code null}
 	 */
-	public @NotNull <T> List<T> queryEntitiesWithNamedQuery(@NotNull Class<T> entityType, @NotNull String queryName,
-			QueryParameters queryParameters) {
-		return queryForList(entityType, getEntityManager().createNamedQuery(queryName, entityType), queryParameters, -1, -1);
-	}
-
-	/**
-	 * Sucht eine Menge von Entität des angegebenen Typs mit der angegebenen
-	 * Named Query und den angegebenen Query-Parametern und liefert das Ergebnis
-	 * der Query zurück.
-	 * 
-	 * @param entityType
-	 *            erwarteter Entitätentyp
-	 * @param queryName
-	 *            eindeutiger Name einer Named Query
-	 * @param queryParameters
-	 *            anzuwendende Query-Parameter (optional)
-	 * @param pageStartingAt
-	 *            Index des ersten Elements der Seite im Resultset
-	 * @param pageSize
-	 *            Anzahl an Elementen in einer Seite
-	 * @return Liste der gefundenen Entitäten, niemals {@code null}
-	 */
-	public @NotNull <T> List<T> queryEntitiesWithNamedQuery(@NotNull Class<T> entityType, @NotNull String queryName,
-			QueryParameters queryParameters, int pageStartingAt, int pageSize) {
-		return queryForList(entityType, getEntityManager().createNamedQuery(queryName, entityType), queryParameters, pageStartingAt,
-				pageSize);
-	}
-
-	/**
-	 * Ermittelt die Anzahl der Entitäten des angegebenen Typs mit dem
-	 * angegebenen Query-Statement und den angegebenen Query-Parametern.
-	 * 
-	 * @param queryStatement
-	 *            JPQL-Statement
-	 * @param queryParameters
-	 *            anzuwendende Query-Parameter (optional)
-	 * @return Anzahl der gefundenen Entitäten, die zu den Query-Parametern
-	 *         passen
-	 */
-	public long countEntities(String queryStatement, QueryParameters queryParameters) {
-		TypedQuery<Long> query = getEntityManager().createNamedQuery(queryStatement, Long.class);
+	public <T> List<T> queryEntities(Class<T> entityType, String queryName, QueryParameters queryParameters) {
+		final TypedQuery<T> query = getEntityManager().createNamedQuery(queryName, entityType);
 		if (queryParameters != null) {
 			queryParameters.applyParameters(query);
-		}
-		return query.getSingleResult();
-	}
-
-	/**
-	 * Ermittelt die Anzahl der Entitäten des angegebenen Typs mit der
-	 * angegebenen Named Query und den angegebenen Query-Parametern.
-	 * 
-	 * @param queryName
-	 *            eindeutiger Name einer Named Query
-	 * @param queryParameters
-	 *            anzuwendende Query-Parameter (optional)
-	 * @return Anzahl der gefundenen Entitäten, die zu den Query-Parametern
-	 *         passen
-	 */
-	public long countEntitiesWithNamedQuery(String queryName, QueryParameters queryParameters) {
-		TypedQuery<Long> query = getEntityManager().createNamedQuery(queryName, Long.class);
-		if (queryParameters != null) {
-			queryParameters.applyParameters(query);
-		}
-		return query.getSingleResult();
-	}
-
-	protected abstract EntityManager getEntityManager();
-	
-	/**
-	 * Führt die angegebene Query mit den angegebenen Query-Parametern aus und
-	 * liefert das Ergebnis als List zurück.
-	 * <p>
-	 * Kapselt die Logik der Parametriesierung und Ausführung von Query für
-	 * beliebige Querytypen (Einfache Query, Named Query, Native Query).
-	 * </p>
-	 * 
-	 * @param entityType
-	 * @param query
-	 * @param queryParameters
-	 * @param pageStartingAt
-	 * @param pageSize
-	 * @return Liste der gefundenen Entitäten; kann leer sein aber niemals
-	 *         {@code null}
-	 */
-	private <T> List<T> queryForList(Class<T> entityType, TypedQuery<T> query, QueryParameters queryParameters,
-			int pageStartingAt, int pageSize) {
-		if (queryParameters != null) {
-			queryParameters.applyParameters(query);
-		}
-		if (pageStartingAt != -1) {
-			query.setFirstResult(pageStartingAt);
-		}
-		if (pageSize != -1) {
-			query.setMaxResults(pageSize);
 		}
 		return query.getResultList();
 	}
+
+	/**
+	 * Ermittelt die Anzahl der Entitäten des angegebenen Typs mit der angegebenen
+	 * Named Query und den angegebenen Query-Parametern und liefert das Ergebnis der
+	 * Query zurück.
+	 *
+	 * @param queryName
+	 *            eindeutiger Name einer Named Query
+	 * @param queryParameters
+	 *            anzuwendende Query-Parameter (optional)
+	 * @return Anzahl der gefundenen Entitäten, die zu den Query-Parametern passen
+	 */
+	public long countEntities(String queryName, QueryParameters queryParameters) {
+		final TypedQuery<Long> query = getEntityManager().createNamedQuery(queryName, Long.class);
+		if (queryParameters != null) {
+			queryParameters.applyParameters(query);
+		}
+		return query.getSingleResult();
+	}
+
+	/**
+	 * Sucht eine Menge von Entität des angegebenen Typs mit der angegebenen Named
+	 * Query und den angegebenen Query-Parametern und liefert das Ergebnis der Query
+	 * zurück.
+	 *
+	 * @param entityType
+	 *            erwarteter Entitätentyp
+	 * @param queryName
+	 *            eindeutiger Name einer Named Query
+	 * @param queryParameters
+	 *            anzuwendende Query-Parameter (optional)
+	 * @param startIndex
+	 *            Start-Index des ersten Treffers in der Ergebnismenge
+	 * @param pageSize
+	 *            maximal Anzahl an Treffern pro Seite
+	 * @return Liste der gefundenen Entitäten, niemals {@code null}
+	 */
+	public <T> List<T> queryEntitiesWithPagination(Class<T> entityType, String queryName,
+			QueryParameters queryParameters, int startIndex, int pageSize) {
+		final TypedQuery<T> query = getEntityManager().createNamedQuery(queryName, entityType);
+		if (queryParameters != null) {
+			queryParameters.applyParameters(query);
+		}
+		query.setFirstResult(startIndex);
+		query.setMaxResults(pageSize);
+		return query.getResultList();
+	}
+
+	/**
+	 * Template method to obtain an entity manager for a specific persistence unit
+	 * from concrete subclasses.
+	 */
+	protected abstract EntityManager getEntityManager();
 }
