@@ -1,0 +1,30 @@
+# docker-compose.yml
+# ----------------------------------------------------------------------------
+# Composes Docker containers and volumes to a runnable PostgreSQL database
+# ----------------------------------------------------------------------------
+#
+---
+version: '3'
+
+services:
+
+  postgres-jeedemo:
+    image: postgres:10.3
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-jeedemo-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: jeedemo
+      POSTGRES_PASSWORD: fwpss2018
+      POSTGRES_DB: jeedemo_db
+   
+volumes:
+
+  postgres-jeedemo-data:
+
+
+
+
+
+  

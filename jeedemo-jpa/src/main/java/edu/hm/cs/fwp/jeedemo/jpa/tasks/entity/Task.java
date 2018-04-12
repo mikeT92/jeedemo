@@ -1,6 +1,6 @@
 package edu.hm.cs.fwp.jeedemo.jpa.tasks.entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,10 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -34,7 +32,7 @@ import edu.hm.cs.fwp.jeedemo.jpa.common.persistence.audit.AbstractAuditableEntit
 		@NamedQuery(name = Task.COUNT_ALL, query = "SELECT COUNT(t) FROM Task t") })
 public class Task extends AbstractAuditableEntity {
 
-	private static final String JPA_NAME_PREFIX = "edu.hm.cs.fwp.jeetrain.business.tasks.entity.Task.";
+	private static final String JPA_NAME_PREFIX = "edu.hm.cs.fwp.jeedemo.jpa.tasks.entity.Task.";
 
 	public static final String QUERY_ALL = JPA_NAME_PREFIX + "QUERY_ALL";
 
@@ -44,8 +42,8 @@ public class Task extends AbstractAuditableEntity {
 	 * Unique identifier of this task.
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE, generator = "Task.id.generator")
-	@TableGenerator(name = "Task.id.generator", table = "T_SEQUENCE", pkColumnName = "SEQUENCE_NAME", pkColumnValue = "T_TASK", valueColumnName = "NEXT_VAL")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tasks.sequence")
+	@SequenceGenerator(name = "tasks.sequence", sequenceName = "S_TASK")
 	@Column(name = "TASK_ID")
 	private long id;
 
@@ -94,8 +92,7 @@ public class Task extends AbstractAuditableEntity {
 	 * </p>
 	 */
 	@Column(name = "SUBMISSION_DATE")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date submissionDate;
+	private LocalDateTime submittedAt;
 
 	/**
 	 * User-ID of participant who submitted this task.
@@ -110,8 +107,7 @@ public class Task extends AbstractAuditableEntity {
 	 * Date/time when this task is supposed to be completed.
 	 */
 	@Column(name = "DUE_DATE")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dueDate;
+	private LocalDateTime dueDate;
 
 	/**
 	 * Completion rate in percent, ranges from 0 to 100.
@@ -126,8 +122,7 @@ public class Task extends AbstractAuditableEntity {
 	 * </p>
 	 */
 	@Column(name = "COMPLETION_DATE")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date completionDate;
+	private LocalDateTime completionDate;
 
 	/**
 	 * User-ID of participant who completed this task.
@@ -193,37 +188,9 @@ public class Task extends AbstractAuditableEntity {
 	/**
 	 * Current version of this instance (used for optimistic locking).
 	 */
-	@Column(name = "VERSION")
+	@Column(name = "OPT_LOCK_VERSION")
 	@Version
 	private int version;
-
-	/**
-	 * User ID of the user who created this entity.
-	 */
-	@Size(max = 16)
-	@Column(name = "CREATOR_USER_ID")
-	private String creatorId;
-
-	/**
-	 * Date/timer when this entity was created.
-	 */
-	@Column(name = "CREATION_DATE")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date creationDate;
-
-	/**
-	 * User ID of the user who modified this entity.
-	 */
-	@Size(max = 16)
-	@Column(name = "LAST_MODIFIER_USER_ID")
-	private String lastModifierId;
-
-	/**
-	 * Date/time this entity was modified.
-	 */
-	@Column(name = "LAST_MODIFICATION_DATE")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastModificationDate;
 
 	public long getId() {
 		return id;
@@ -269,12 +236,12 @@ public class Task extends AbstractAuditableEntity {
 		this.lifeCycleState = state;
 	}
 
-	public Date getSubmissionDate() {
-		return submissionDate;
+	public LocalDateTime getSubmittedAt() {
+		return submittedAt;
 	}
 
-	public void setSubmissionDate(Date startDate) {
-		this.submissionDate = startDate;
+	public void setSubmittedAt(LocalDateTime startDate) {
+		this.submittedAt = startDate;
 	}
 
 	public String getSubmitterUserId() {
@@ -285,11 +252,11 @@ public class Task extends AbstractAuditableEntity {
 		this.submitterUserId = requesterUserId;
 	}
 
-	public Date getDueDate() {
+	public LocalDateTime getDueDate() {
 		return dueDate;
 	}
 
-	public void setDueDate(Date dueDate) {
+	public void setDueDate(LocalDateTime dueDate) {
 		this.dueDate = dueDate;
 	}
 
@@ -301,11 +268,11 @@ public class Task extends AbstractAuditableEntity {
 		this.completionRate = completionRate;
 	}
 
-	public Date getCompletionDate() {
+	public LocalDateTime getCompletionDate() {
 		return completionDate;
 	}
 
-	public void setCompletionDate(Date completionDate) {
+	public void setCompletionDate(LocalDateTime completionDate) {
 		this.completionDate = completionDate;
 	}
 
@@ -375,58 +342,6 @@ public class Task extends AbstractAuditableEntity {
 
 	public int getVersion() {
 		return version;
-	}
-
-	/**
-	 * @see edu.hm.cs.fwp.jeedemo.jpa.common.persistence.audit.AuditableEntity#getCreatorId()
-	 */
-	public String getCreatorId() {
-		return this.creatorId;
-	}
-
-	/**
-	 * @see edu.hm.cs.fwp.jeedemo.jpa.common.persistence.audit.AuditableEntity#getCreationDate()
-	 */
-	public Date getCreationDate() {
-		return this.creationDate;
-	}
-
-	/**
-	 * @see edu.hm.cs.fwp.jeedemo.jpa.common.persistence.audit.AuditableEntity#trackCreation(java.lang.String,
-	 *      java.util.Date)
-	 */
-	public void trackCreation(String creatorId, Date creationDate) {
-		if (this.creatorId != null || this.creationDate != null) {
-			throw new IllegalStateException(
-					"AuditableEntity.trackCreation() can only be called once during the lifetime of an AuditableEntity!");
-		}
-		this.creatorId = creatorId;
-		this.creationDate = creationDate;
-		this.lastModifierId = creatorId;
-		this.lastModificationDate = creationDate;
-	}
-
-	/**
-	 * @see edu.hm.cs.fwp.jeedemo.jpa.common.persistence.audit.AuditableEntity#getLastModifierId()
-	 */
-	public String getLastModifierId() {
-		return this.lastModifierId;
-	}
-
-	/**
-	 * @see edu.hm.cs.fwp.jeedemo.jpa.common.persistence.audit.AuditableEntity#getLastModificationDate()
-	 */
-	public Date getLastModificationDate() {
-		return this.lastModificationDate;
-	}
-
-	/**
-	 * @see edu.hm.cs.fwp.jeedemo.jpa.common.persistence.audit.AuditableEntity#trackModification(java.lang.String,
-	 *      java.util.Date)
-	 */
-	public void trackModification(String lastModifierId, Date lastModificationDate) {
-		this.lastModificationDate = lastModificationDate;
-		this.lastModifierId = lastModifierId;
 	}
 
 	/**

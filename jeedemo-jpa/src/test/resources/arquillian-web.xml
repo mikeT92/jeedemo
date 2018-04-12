@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+     version="4.0">
+	<filter>
+		<description>Filter that handles automatic authentication for component tests</description>
+		<filter-name>componentTestAuthenticationFilter</filter-name>
+		<filter-class>edu.hm.cs.fwp.jeedemo.jpa.common.test.ComponentTestAuthenticationFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>componentTestAuthenticationFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<login-config>
+		<auth-method>BASIC</auth-method>
+		<realm-name>JEEDEMO_REALM</realm-name>
+	</login-config>
+</web-app>
+

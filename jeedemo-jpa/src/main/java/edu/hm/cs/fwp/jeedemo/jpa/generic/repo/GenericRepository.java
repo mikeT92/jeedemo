@@ -1,5 +1,5 @@
 /*
- * GenericRepositoryBean.java
+ * GenericRepository.java
  * jeedemo-jpa
  */
 package edu.hm.cs.fwp.jeedemo.jpa.generic.repo;
@@ -18,7 +18,7 @@ import edu.hm.cs.fwp.jeedemo.jpa.common.persistence.repository.AbstractGenericRe
  * @since Release 2016.1
  */
 @Stateless
-public class GenericRepositoryBean extends AbstractGenericRepository {
+public class GenericRepository extends AbstractGenericRepository {
 
 	/**
 	 * Konkreter PersistenceContext für eine bestimmte PersistenceUnit

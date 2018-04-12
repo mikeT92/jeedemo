@@ -31,17 +31,17 @@ import javax.validation.constraints.Size;
 public class AbstractAuditableEntity {
 
 	@Size(max = 31)
-	@Column(name = "created_by")
+	@Column(name = "CREATED_BY")
 	private String createdBy;
 
-	@Column(name = "created_at")
+	@Column(name = "CREATED_AT")
 	private LocalDateTime createdAt;
 
 	@Size(max = 31)
-	@Column(name = "last_modified_by")
+	@Column(name = "LAST_MODIFIED_BY")
 	private String lastModifiedBy;
 
-	@Column(name = "last_modified_at")
+	@Column(name = "LAST_MODIFIED_AT")
 	private LocalDateTime lastModifiedAt;
 
 	/**
